@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>6-2 單筆資料綁定，使用 datum()</title>
+    <script src="https://cdn.jsdelivr.net/npm/d3@3"></script>
+  </head>
+  <body>
+    <script>
+      var arr = [85, 60, 99, 49, 77, 82];
+
+      // .datum() 是單筆資料綁定的用法
+      for (var i = 0; i < arr.length; i++) {
+        // d3.select("body").append("div").datum(arr[i]).text("ok");
+        
+        d3.select("body")
+          .append("div")
+          .datum(arr[i])
+          // 可以取出綁定值作為使用
+          .text(function (d) {
+            return d;
+          });
+      }
+      console.log(d3.selectAll("div"));
+      // 印出可以看到綁定的 div element都會多一個 "__data__" 的屬性，就會紀錄陣列分配到的值
+    </script>
+  </body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>6-2 多筆資料綁定，使用 data()</title>
+    <script src="https://cdn.jsdelivr.net/npm/d3@3"></script>
+  </head>
+  <body>
+    <div></div>
+    <div></div>
+
+    <script>
+      var arr = [85, 60, 99, 49, 77, 82];
+
+      // for (var i = 0; i < arr.length; i++) {
+        d3.select("body")
+          .selectAll("div")
+          // 多筆資料綁定，會是一個蘿蔔一個坑的概念，像是上面有兩個 div，就是取兩個 div綁定資料
+          .data(arr)
+          // 可以取出綁定值作為使用
+          .text(function (d) {
+            return d;
+          });
+      // }
+      console.log(d3.selectAll("div"));
+      // 印出可以看到綁定的 div element都會多一個 "__data__" 的屬性，就會紀錄陣列分配到的值
+    </script>
+  </body>
+</html>

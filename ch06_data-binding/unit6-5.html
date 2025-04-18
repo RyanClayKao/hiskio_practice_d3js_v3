@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>6-5 練習：數值小於 70的改成紅色</title>
+    <script src="https://cdn.jsdelivr.net/npm/d3@3"></script>
+  </head>
+  <body>
+    <div></div>
+    <div></div>
+
+    <script>
+      var arr = [85, 60, 99, 49, 77, 82, 90, 65];
+
+      bind(arr);
+      render();
+
+      function bind(data) {
+        var selection = d3.select("body").selectAll("div").data(data);
+
+        selection.enter().append("div");
+        selection.exit().remove();
+      }
+
+      function render() {
+        d3.selectAll("div").text(function (d, index) {
+          return index + ":" + d;
+        });
+
+        d3.selectAll("div").style({
+          color: function(d) {
+            if (d < 70){
+              return "red";
+            }else {
+              return "black";
+            }
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

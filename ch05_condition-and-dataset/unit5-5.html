@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>5-5 讀取 csv檔案資料</title>
+  <script src="https://cdn.jsdelivr.net/npm/d3@3"></script>
+</head>
+<body>
+  <!-- csv資料來源：政府資料開放平臺 -->
+  <!-- 資料及來源網址：https://data.gov.tw/dataset/24826 -->
+  <script>
+    let body = d3.select("body");
+    d3.csv("invoice-taipei.csv", function(dataSet){
+      // console.log(dataSet);
+      console.table(dataSet);
+    })
+  </script>
+</body>
+</html>

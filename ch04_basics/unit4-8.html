@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>改用 d3.js畫一個音符的練習</title>
+    <script src="https://cdn.jsdelivr.net/npm/d3@3"></script>
+  </head>
+  <body>
+    <svg width="300" height="200">
+      <!-- <rect x="160" y="45" width="5" height="78"></rect>
+      <circle cx="150" cy="120" r="15"></circle> -->
+    </svg>
+    <script>
+      let svg = d3.select("svg");
+      // 加入背景顏色的區塊
+      svg
+        .append("rect")
+        .attr("x", 0)
+        .attr("y", 0)
+        .attr("width", 300)
+        .attr("height", 200)
+        .attr("fill", "OldLace");
+
+      // 音符符號
+      svg.append("circle").attr("cx", 150).attr("cy", 120).attr("r", 15);
+
+      svg
+        .append("rect")
+        .attr("x", 160)
+        .attr("y", 45)
+        .attr("width", 5)
+        .attr("height", 78);
+
+      // 五線譜
+      svg
+        .append("line")
+        .attr("x1", 0)
+        .attr("y1", 45)
+        .attr("x2", 300)
+        .attr("y2", 45)
+        .attr("stroke", "black");
+      svg
+        .append("line")
+        .attr("x1", 0)
+        .attr("y1", 75)
+        .attr("x2", 300)
+        .attr("y2", 75)
+        .attr("stroke", "black");
+      svg
+        .append("line")
+        .attr("x1", 0)
+        .attr("y1", 105)
+        .attr("x2", 300)
+        .attr("y2", 105)
+        .attr("stroke", "black");
+      svg
+        .append("line")
+        .attr("x1", 0)
+        .attr("y1", 135)
+        .attr("x2", 300)
+        .attr("y2", 135)
+        .attr("stroke", "black");
+      svg
+        .append("line")
+        .attr("x1", 0)
+        .attr("y1", 165)
+        .attr("x2", 300)
+        .attr("y2", 165)
+        .attr("stroke", "black");
+
+      // A 文字
+      svg
+        .append("text")
+        .text("A")
+        .attr("x", 135)
+        .attr("y", 200)
+        .attr("font-size", 30)
+        .attr("font-family", "arial");
+    </script>
+  </body>
+</html>

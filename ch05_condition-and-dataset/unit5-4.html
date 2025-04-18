@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>5-4 使用js判斷式做 d3.js的條件式渲染</title>
+  <script src="https://cdn.jsdelivr.net/npm/d3@3"></script>
+</head>
+<body>
+  <script>
+    let body = d3.select("body");
+    let arr = [85, 60, 99, 49, 77, 59, 12, 90];
+    for (let i = 0; i < arr.length; i++){
+      let item = arr[i];
+      if (item < 60) {
+        body.append("div").text(item.toString()).style({color: "red"});
+      }else {
+        body.append("div").text(item.toString()).style({color: "green"});
+      }
+    }
+  </script>
+</body>
+</html>

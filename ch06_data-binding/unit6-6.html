@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>6-6 繪製直條圖</title>
+    <script src="https://cdn.jsdelivr.net/npm/d3@3"></script>
+  </head>
+  <body>
+    <script>
+      var arr = [85, 60, 99, 49, 77, 82, 90, 65];
+      let w = 600;
+      let h = 400;
+      let p = 100;
+
+      svg();
+      bind(arr);
+      render();
+
+      function svg() {
+        d3.select("body").append("svg").attr("width", w).attr("height", h);
+      }
+
+      function bind(data) {
+        var selection = d3.select("svg").selectAll("rect").data(data);
+
+        selection.enter().append("rect");
+        selection.exit().remove();
+
+        // 文字部分 (長條圖 X軸的每筆資料值)
+        var selection_text = d3.select("svg").selectAll("text").data(data);
+
+        selection_text.enter().append("text");
+        selection_text.exit().remove();
+      }
+
+      function render() {
+        d3.selectAll("rect")
+          .attr("x", function (d, i) {
+            // 左邊 padding的寬度 + (資料寬度 40 + 間隔 3) * 資料 index
+            return p + 43 * i;
+          })
+          .attr("y", function(d, i){
+            // svg畫布高度 - 下方的 padding高度 - 長條舉行的高度 = 最後定位的 Y座標數值
+            return h - p - d;
+          })
+          .attr("width", 40)
+          .attr("height", function (d) {
+            return d;
+          })
+          .attr("fill", function(d){
+            if (d < 70){
+              return "red";
+            }else{
+              return "lightgreen"
+            }
+          });
+
+        // 文字部分
+        d3.selectAll("text")
+        .attr("x", function(d, i){
+          // 左側 padding值 + (長條矩形的寬度 40 + 間隔 3) * 每筆資料 index值 + 大約的文字由左往右推的偏移量
+          return p  + 43 * i + 6
+        })
+        .attr("y", function(d, i){
+          // 畫布高度 - 下方 padding值 + 大約的往下偏移量
+          return h - p + 25;
+        })
+        // .attr("font-size", 16)
+        .text(function(d){
+          return d;
+        })
+
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>5-12 讀取JSON格式改成長條圖小練習</title>
+    <script src="https://cdn.jsdelivr.net/npm/d3@3"></script>
+  </head>
+  <body>
+    <svg width="900" height="500"></svg>
+
+    <!-- csv資料來源：政府資料開放平臺 -->
+    <!-- 資料及來源網址：https://data.gov.tw/dataset/24826 -->
+    <script>
+      let svg = d3.select("svg");
+      d3.json("invoice-taipei.json", function (dataSet) {
+        // 作業要求：讀取並顯示發票金額大於10億、2022年8月台北市的資料
+        let convertedDataSet = dataSet.map(item => {
+          return {
+            ...item,
+            amount: +item.amount,
+            number: +item.number,
+          }
+        })
+
+        const filteredData = convertedDataSet.filter(
+          (item) =>
+            +item.amount > 1000000000 &&
+            item.date === "202208" &&
+            item.cid === "A"
+        );
+        // console.table(convertedDataSet);
+        console.table(filteredData);
+        
+        let maxAmount = 0;
+        let maxIdustryNameLength = 0;
+        for (let n = 0; n < filteredData.length; n++) {
+          if (filteredData[n].amount > maxAmount) {
+            maxAmount = filteredData[n].amount;
+          }
+          
+          if (filteredData[n].industry.length > maxIdustryNameLength){
+            maxIdustryNameLength = filteredData[n].industry.length;
+          }
+        }
+        // console.log(maxAmount, maxIdustryNameLength);
+
+        for (let i = 0; i < filteredData.length; i++) {
+          let item = filteredData[i];
+          svg
+            .append("text")
+            .text(item.industry)
+            .attr("x", 10)
+            .attr("y", 10 + i * 16 + 10)
+            .attr("font-size", 12)
+            .attr("font-family", "微軟正黑體");
+          // console.log(item.amount, maxAmount, parseFloat((item.amount / maxAmount).toFixed(2)));
+          // let width_persent = parseFloat((item.amount / maxAmount).toFixed(2)) * (900 - maxIdustryNameLength * 12 + 20);
+          let width_persent = item.amount / 100000000;
+          svg
+            .append("rect")
+            .attr("x", 10 + maxIdustryNameLength * 12 + 10)
+            .attr("y", 10 + i * 16)
+            .attr("width", width_persent)
+            .attr("height", 10)
+            .attr("fill", "red");
+          svg
+            .append("text")
+            .text(item.amount)
+            .attr("x", maxIdustryNameLength * 12 + 10 + 10 + 10 + width_persent)
+            .attr("y", 10 + i * 16 + 10)
+            .attr("font-size", 12);
+        }
+      });
+    </script>
+  </body>
+</html>

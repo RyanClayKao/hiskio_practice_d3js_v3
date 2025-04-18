@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>6-3 多筆資料綁定的三種狀況</title>
+    <script src="https://cdn.jsdelivr.net/npm/d3@3"></script>
+  </head>
+  <body>
+    <div></div>
+    <div></div>
+
+    <script>
+      var arr = [85, 60, 99, 49, 77, 82];
+
+      // 原則上會視現有 html元素而論
+      // [狀況一] html 元素 < 資料數量，只會針對現有的元素做綁定，多餘的資料就沒有作用
+      // [狀況二] html 元素 > 資料數量，只會針對現有的元素做綁定，多餘的元素就沒有作用
+      // [狀況三] html 元素 = 資料數量，一個蘿蔔一個坑，剛剛好
+
+      // 目前即為［狀況一］，只有兩個 div，但是資料有6筆
+      let selection = d3
+        .select("body")
+        .selectAll("div")
+        // 多筆資料綁定，會是一個蘿蔔一個坑的概念，像是上面有兩個 div，就是取兩個 div綁定資料
+        .data(arr);
+
+      selection.text(function (d) {
+        return d;
+      });
+
+      // 透過 enter()來補上不足的 div元素，並且再次透過 text()傳入的函式塞值
+      selection
+        .enter() // 代表進入「可視化」
+        .append("div")
+        .text(function (d) {
+          return d;
+        });
+
+      // ［狀況二］
+      // exit() 代表離開「可視化」
+      // 透過 exit()來表示說目前是「元素數量 > 資料量」
+      // 再使用 remove() 來移除多餘的 div 元素
+      // selection.exit().remove();
+    </script>
+  </body>
+</html>

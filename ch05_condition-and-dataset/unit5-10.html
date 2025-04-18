@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>5-10 使用 d3.js渲染 json資料</title>
+  <script src="https://cdn.jsdelivr.net/npm/d3@3"></script>
+</head>
+<body>
+  <!-- csv資料來源：政府資料開放平臺 -->
+  <!-- 資料及來源網址：https://data.gov.tw/dataset/24826 -->
+  <script>
+    let body = d3.select("body");
+    d3.json("invoice-taipei.json", function(dataSet){
+      // 作業要求：讀取並顯示發票數量大於1千萬的資料      
+      const filteredData = dataSet.filter(item => item.number > 10000000);
+      for(let i = 0; i < filteredData.length; i++){        
+        let item = filteredData[i];
+        let content = item.industry  + ", " + item.number;
+        body.append("div").text(content);
+      }
+    })
+  </script>
+</body>
+</html>
