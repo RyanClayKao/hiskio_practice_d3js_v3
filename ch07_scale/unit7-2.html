@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>7-2 何謂比例尺</title>
+  <script src="https://cdn.jsdelivr.net/npm/d3@3"></script>
+</head>
+<body>
+  <script>
+    // domain: input
+    // range: ouput
+
+    // 「等比例縮小」
+    var xScale1 = d3.scale.linear().domain([0, 1000]).range([0, 100]);
+
+    console.log(xScale1(455)); // output: 45.5
+    console.log(xScale1(4550)); // output: 455
+    console.log(xScale1(-4550)); // output: -455
+
+
+    // 「等比例放大」
+    var xScale1 = d3.scale.linear().domain([0, 100]).range([0, 1000]);
+
+    console.log(xScale1(45)); // output: 450
+    console.log(xScale1(455)); // output: 4550
+    console.log(xScale1(4550)); // output: 45500
+    console.log(xScale1(-4550)); // output: -45500
+  </script>
+</body>
+</html>
