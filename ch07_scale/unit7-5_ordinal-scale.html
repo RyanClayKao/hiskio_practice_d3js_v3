@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>7-5 序數比例尺，ordinal()</title>
+  <script src="https://cdn.jsdelivr.net/npm/d3@3"></script>
+</head>
+<body>
+  <script>
+    let index1 = [0, 2, 4, 6, 8];
+    let index2 = ['中國國民黨', '民主進步黨', '時代力量', '無黨團結聯盟', '親民黨'];
+    let color = ['blue', 'green', 'yellow', 'gray', 'orange'];
+
+    var xScale1 = d3.scale.ordinal().domain(index1).range(color);
+    console.log("========= ordinal used index1 =========");
+    console.log(xScale1(2)); // output: "green"
+    console.log(xScale1(6)); // output: "gray"
+    console.log(xScale1(10)); // output: 'blue'  // 當輸入不存在的，就會預設以第一個值作為回傳
+
+    var xScale2 = d3.scale.ordinal().domain(index2).range(color);
+    console.log("========= ordinal used index2 =========");
+    console.log(xScale2('中國國民黨')); // output: "blue"
+    console.log(xScale2('民主進步黨')); // output: "green"
+    console.log(xScale2('黨黨黨')); // output: 'blue'  // 當輸入不存在的，就會預設以第一個值作為回傳
+  </script>
+</body>
+</html>
