@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      7-10 讀取JSON格式改成長條圖小練習，結合使用比例尺，再使用
+      min()、max()，以及加上座標軸
+    </title>
+    <script src="https://cdn.jsdelivr.net/npm/d3@3"></script>
+    <style>
+      /* path 指的是軸線 */
+      /* line 指的是標記線 */
+      /* text 則是標記值 */
+      .axis path,
+      .axis line {
+        fill: none;
+        stroke: black;
+        shape-rendering: auto;
+      }
+
+      .axis text {
+        font-size: 11px;
+        fill: black;
+      }
+    </style>
+  </head>
+  <body>
+    <svg width="900" height="500"></svg>
+
+    <!-- csv資料來源：政府資料開放平臺 -->
+    <!-- 資料及來源網址：https://data.gov.tw/dataset/24826 -->
+    <script>
+      let maxAmount = 0;
+      let maxIdustryNameLength = 0;
+
+      let svg = d3.select("svg");
+      d3.json("../data/invoice-taipei.json", function (dataSet) {
+        // 作業要求：讀取並顯示發票金額大於10億、2022年8月台北市的資料
+        let convertedDataSet = dataSet.map((item) => {
+          return {
+            ...item,
+            amount: +item.amount,
+            number: +item.number,
+          };
+        });
+
+        const filteredData = convertedDataSet.filter(
+          (item) =>
+            +item.amount > 1000000000 &&
+            item.date === "202208" &&
+            item.cid === "A"
+        );
+
+        bind(filteredData);
+        render(filteredData);
+      });
+
+      function bind(dataSet) {
+        // 綁定長條矩形資料
+        let selection_rect = svg.selectAll("rect").data(dataSet);
+        selection_rect.enter().append("rect");
+        selection_rect.exit().remove();
+
+        // 綁定每列文字資料
+        let selection_text = svg.selectAll("text").data(dataSet);
+        selection_text.enter().append("text");
+        selection_text.exit().remove();
+      }
+
+      function render(dataSet) {
+        // 使用比例尺換算
+        let xScale = d3.scale
+          .linear()
+          .domain([
+            d3.min(dataSet, function (d) {
+              return d.amount;
+            }),
+            d3.max(dataSet, function (d) {
+              return d.amount;
+            }),
+          ])
+          .range([10, 300]);
+
+        // X座標軸
+        var xAxis = d3.svg
+          .axis()
+          .scale(xScale)
+          .orient("bottom")
+          .ticks(5)
+          .tickFormat(function (tickData) {
+            return tickData / 100000000 + "G";
+          });
+
+        svg
+          .selectAll("text")
+          .attr("x", function (d, i) {
+            return 10;
+          })
+          .attr("y", function (d, i) {
+            return 20 + i * 16;
+          })
+          .attr("font-size", 12)
+          .attr("font-family", "微軟正黑體")
+          .classed("text_industry", true)
+          .text(function (d) {
+            return d.industry;
+          });
+
+        svg
+          .selectAll("rect")
+          .attr("x", 10 + 300)
+          .attr("y", function(d, i){
+            return 10 + i * 16;
+          })
+          .attr("width", function(d) {
+            return xScale(d.amount);
+          })
+          .attr("height", 10)
+          .attr("fill", "red");
+
+        // 畫 X座標軸
+        d3.select("svg")
+          .append("g")
+          .classed("axis", true)
+          .attr(
+            "transform",
+            `translate(${300}, ${
+              10 + dataSet.length * 16 + 10
+            })`
+          )
+          .call(xAxis);
+      }
+    </script>
+  </body>
+</html>
