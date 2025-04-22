@@ -11,7 +11,7 @@
   <!-- 資料及來源網址：https://data.gov.tw/dataset/24826 -->
   <script>
     let body = d3.select("body");
-    d3.json("invoice-taipei.json", function(dataSet){      
+    d3.json("../data/invoice-taipei.json", function(dataSet){      
       // 作業要求：讀取並顯示發票金額大於10億、2022年8月台北市的資料            
       const filteredData = dataSet.filter(item => item.amount > 1000000000 && item.date === "202208" && item.cid === "A");
       console.table(filteredData);

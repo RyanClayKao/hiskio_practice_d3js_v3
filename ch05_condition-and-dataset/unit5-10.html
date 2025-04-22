@@ -11,7 +11,7 @@
   <!-- 資料及來源網址：https://data.gov.tw/dataset/24826 -->
   <script>
     let body = d3.select("body");
-    d3.json("invoice-taipei.json", function(dataSet){
+    d3.json("../data/invoice-taipei.json", function(dataSet){
       // 作業要求：讀取並顯示發票數量大於1千萬的資料      
       const filteredData = dataSet.filter(item => item.number > 10000000);
       for(let i = 0; i < filteredData.length; i++){        

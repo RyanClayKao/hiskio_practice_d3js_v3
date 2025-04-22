@@ -11,7 +11,7 @@
   <!-- 資料及來源網址：https://data.gov.tw/dataset/24826 -->
   <script>
     let body = d3.select("body");
-    d3.csv("invoice-taipei.csv", function(dataSet){
+    d3.csv("../data/invoice-taipei.csv", function(dataSet){
       // console.log(dataSet);
       console.table(dataSet);
     })

@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>5-12 讀取JSON格式改成長條圖小練習</title>
+    <title>7-3-1 讀取JSON格式改成長條圖小練習，結合使用比例尺</title>
     <script src="https://cdn.jsdelivr.net/npm/d3@3"></script>
   </head>
   <body>
@@ -56,7 +56,12 @@
             .attr("font-family", "微軟正黑體");
           // console.log(item.amount, maxAmount, parseFloat((item.amount / maxAmount).toFixed(2)));
           // let width_persent = parseFloat((item.amount / maxAmount).toFixed(2)) * (900 - maxIdustryNameLength * 12 + 20);
-          let width_persent = item.amount / 100000000;
+
+          // 使用比例尺換算
+          let xScale = d3.scale.linear().domain([0, 10000000000]).range([0, 160]);
+
+          // let width_persent = item.amount / 100000000;
+          let width_persent = xScale(item.amount);
           svg
             .append("rect")
             .attr("x", 10 + maxIdustryNameLength * 12 + 10)
