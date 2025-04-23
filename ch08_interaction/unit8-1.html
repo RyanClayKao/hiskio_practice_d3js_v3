@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>8-2 js 簡單的一維陣列去除重複</title>
+  <script src="https://cdn.jsdelivr.net/npm/d3@3"></script>
+</head>
+<body>
+  <script>
+    let arr1 = ["A", "B", "A", "C"];
+
+    let uniArr = unique(arr1);
+    console.log(uniArr);
+
+    function unique(arr){
+      let n = [];
+
+      for(let i = 0; i < arr.length; i++){
+        if (n.indexOf(arr1[i]) === -1){
+          n.push(arr1[i]);
+        }
+      }
+
+      return n;
+    }
+  </script>
+</body>
+</html>
