@@ -9,9 +9,19 @@
 <body>
   <script>
     let arr1 = ["A", "B", "A", "C"];
+    let arr2 = [
+      {city: "台北市", cid: "A"},
+      {city: "台中市", cid: "B"},
+      {city: "台北市", cid: "A"},
+      {city: "基隆市", cid: "C"},
+    ]
+    let arr3_cid = arr2.map(item => item.cid);    
 
     let uniArr = unique(arr1);
     console.log(uniArr);
+
+    let arr4 = unique(arr3_cid);
+    console.log(arr4);
 
     function unique(arr){
       let n = [];
