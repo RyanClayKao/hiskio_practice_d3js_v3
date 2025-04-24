@@ -146,6 +146,12 @@
                 })
                 ;
 
+            d3.selectAll("circle")
+                .append("title")
+                .text(function(d) {
+                    return d.city + "\r\n" + d.industry + "\r\n" + d.amount;
+                })
+
             // 畫軸線
             // X軸
             d3.select('svg>#axisX').attr('transform', `translate(0, ${ h - top_bottom_padding + 20})`).call(xAxis);
