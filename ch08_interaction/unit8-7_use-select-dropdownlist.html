@@ -112,7 +112,7 @@
                                 return d.amount;
                             })
                         ])
-                        .range([5, 10]); // 自訂圓球大小
+                        .range([5, 30]); // 自訂圓球大小
             // 縣市 => 以顏色輸出
             var fScale = d3.scale.category20();
 
@@ -131,6 +131,7 @@
                 
             //6. 建立render()繪圖
             d3.selectAll("circle")
+                .transition()
                 .attr("cx", function(d) {
                     return xScale(new Date(d.date));
                 })
