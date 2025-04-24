@@ -24,10 +24,15 @@
         d3.csv("../data/cancer_data.csv", row, function(dataSet){
             
             //TODO-找出符合2013年國人(台閩地區)癌症前6名???
-            var sorted_dataSet = [];
+            let fDataSet = dataSet.filter(item => item.checked_cancer_year === '2013' && item.city === '台閩地區' && item.cancer_type !== "全癌症");
+            var sorted_dataSet = fDataSet.sort(function(a, b){
+                return d3.descending(a.rude_rate, b.rude_rate);
+            });
                 
-            bind(dataSet);
-            render(dataSet);
+            sorted_dataSet.length = 6;
+
+            bind(sorted_dataSet);
+            render(sorted_dataSet);
     //           listItems(dataSet);
         });
         function row(d){
@@ -92,7 +97,7 @@
                 .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })  //arc.centroid 計算並回傳此元素中心位置(重心)
                 .attr("text-anchor","middle")
                 .text(function(d){
-                    return d.cancar_type + " " + d.rude_rate;
+                    return d.data.cancer_type + " " + d.data.rude_rate;
             })
             
         }
