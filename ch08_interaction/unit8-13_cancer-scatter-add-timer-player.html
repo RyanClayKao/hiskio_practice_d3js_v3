@@ -48,6 +48,7 @@
         <p id="content">tooltip</p>
     </div>
     <button type="button" id="timer_player_btn">Play</button>
+    <button type="button" id="timer_stop_btn">Stop</button>
 
     <script>
         // 1. 定義width, height, padding
@@ -269,6 +270,10 @@
                     
                 }, 1000);
             });
+
+            d3.select("#timer_stop_btn").on("click", function(){
+                clearInterval(timer);
+            })
         }
 
 
