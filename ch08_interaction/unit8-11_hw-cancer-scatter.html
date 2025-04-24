@@ -46,6 +46,7 @@
             <strong id="city">Hello</strong>
         </p>
         <p id="cancer_type">tooltip</p>
+        <p>案例數： <span id="cancer_occur_num">0</span></p>
     </div>
 
     <script>
@@ -182,6 +183,7 @@
 
                     tooltip.select("#city").text(d.city);
                     tooltip.select("#cancer_type").text(d.cancer_type);
+                    tooltip.select("#cancer_occur_num").text(d.cancer_occur_num);
                     tooltip.classed("hidden", false);
                 })
                 .on("mouseout", function(d) {
