@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>9-7 資料巢狀化</title>
+    <script src="https://cdn.jsdelivr.net/npm/d3@3"></script>
+  </head>
+  <body>
+    <script>
+      let arr = [
+        { value: 1, char: "A", num: 1 },
+        { value: 2, char: "B", num: 1 },
+        { value: 3, char: "B", num: 2 },
+        { value: 4, char: "C", num: 1 },
+        { value: 5, char: "C", num: 2 },
+        { value: 6, char: "C", num: 3 },
+      ];
+
+      // ========= 可以一直依據 key() 去分多層巢狀 ============
+      let nested_a = d3
+        .nest()
+        .key(function (d) {
+          return d.char;
+        })
+        .key(function (d) {
+          return d.num;
+        })
+        .entries(arr);
+
+      console.log(nested_a);
+
+      // ========= 可以一直依據 rollup() 去彙總、自訂要回傳的 values ============
+      let nested_b = d3
+        .nest()
+        .key(function (d) {
+          return d.char;
+        })
+        .rollup(function (v) {
+          // 這裡的 v會是基於第一層 key巢狀化之後拿到的每組 values
+          // console.log(v);
+          return v.length;
+        })
+        .entries(arr);
+
+      console.log(nested_b);
+
+      let nested_c = d3
+        .nest()
+        .key(function (d) {
+          return d.char;
+        })
+        .rollup(function (v) {
+          // 可以自訂要匯總回傳的資料
+          return { aa: "1", bb: v.length };
+        })
+        .entries(arr);
+
+      console.log(nested_c);
+
+      // ========= 可以依據 sortKeys() + 傳入d3.descending、d3.aescending 去排序 ============
+      let nested_d = d3
+        .nest()
+        .key(function (d) {
+          return d.char;
+        })
+        .sortKeys(d3.descending)
+        .entries(arr);
+
+      console.log(nested_d);
+
+      // ========= 可以依據 sortValues() + 傳入d3.descending、d3.aescending 去排序 ============
+      // MEMO: 目前是自己嘗試寫下面的內容，但是好像看不出有什麼效果
+      let nested_e = d3
+        .nest()
+        .key(function (d) {
+          return d.char;
+        })
+        .sortValues(d3.descending)
+        .entries(arr);
+
+      console.log(nested_e);
+
+    </script>
+  </body>
+</html>
