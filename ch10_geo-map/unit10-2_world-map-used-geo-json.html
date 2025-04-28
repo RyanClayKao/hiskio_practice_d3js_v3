@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>10-2 載入世界地圖的 geo json格式檔，並且進行綁定</title>
   <script src="https://cdn.jsdelivr.net/npm/d3@3"></script>
+  <script src="./topojson.min.js"></script>
   <style>
     .map-boundary{
       stroke: #eee;
@@ -16,22 +17,23 @@
 
   <script>
     // 1.載入地圖 GeoJSON格式資料檔 
-    d3.json('../data/world-map-geo.json',function(mapDataSet){
+    d3.json('../data/world-map-topo.json',function(mapDataSet){
       bind(mapDataSet);
       render();
     });
 
-    function bind(geoRoot){
+    function bind(topoRoot){
       // 2. 地理投影器：
       //    設定投影方式：麥卡托、定位器（[經度,緯度])、縮放(scale)
       var projection = d3.geo.mercator().center([121, 24]).scale(3000);
       // 3. 路徑產生器： d3.geo.path()
       var path = d3.geo.path().projection(projection);
 
-      console.log(geoRoot);
+      console.log(topoRoot);
 
-      // // 4.地理資料檔: 使用topojson.js載入地理資料
-      // var geoRoot = topojson.feature(topoRoot, topoRoot.objects["???"]);
+      // 4.地理資料檔: 使用topojson.js載入地理資料
+      // objects的傳入值，可以透過 console.log(topoRoot) 來查看
+      var geoRoot = topojson.feature(topoRoot, topoRoot.objects["ne_10m_admin_1_states_provinces"]);
 
       // 綁定 path與各地理區塊
       var selection = d3.select("svg").selectAll("path").data(geoRoot.features);
@@ -47,7 +49,7 @@
       d3.selectAll("path")
         .attr({
 
-        })
+        });
     }
   </script>
 </body>

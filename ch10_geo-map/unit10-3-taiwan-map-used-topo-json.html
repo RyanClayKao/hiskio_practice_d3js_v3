@@ -47,8 +47,8 @@
       var tmp_color;
 
       d3.selectAll("path")
-        .attr({
-
+        .attr("fill", function(d, i){
+          return fScale(i);
         })
     }
   </script>
