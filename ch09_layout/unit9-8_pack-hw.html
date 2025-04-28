@@ -42,7 +42,7 @@
         d3.csv("../data/cancer_data.csv", row, function(dataSet){
             
            bind(dataSet);
-        //    render();
+           render();
            
         });
         function row(d){
@@ -53,7 +53,7 @@
             d.rude_rate= +d.rude_rate;
             d.middle_age= +d.middle_age;
             //TODO-4.自行產生欄位
-            //d.???=???
+            d.value=d.cancer_occur_num;
             return d;
         }
         
@@ -85,7 +85,7 @@
                                     })
                                     .entries(fDataSet);
             
-                console.log(nested_dataSet);
+                // console.log(nested_dataSet);
             
             var root = {values: nested_dataSet};
             
@@ -109,6 +109,7 @@
             //console.log(packed_dataSet);
             
             //TODO-7.如何把最外的大圓去掉？
+            packed_dataSet = packed_dataSet.filter(item => item.depth > 0);
             
             var selection = d3.select("svg")
                                 .selectAll("circle")
@@ -125,7 +126,12 @@
                 cx: function(d) { return d.x; }, // 用 x,y 當圓心
                 cy: function(d) { return d.y; },
                 r : function(d) { return d.r; }, // 用 r 當半徑
-                fill: "#eee",         //TODO-5.依癌症別填不同色，需注意各節點具有欄位
+                fill: function(d){
+                    if (d.depth > 2) {
+                        return fScale(d.cancer_type);
+                    }
+                    return "#eee";
+                },         //TODO-5.依癌症別填不同色，需注意各節點具有欄位
                 stroke: "#666",       // 邊框畫深灰色
               });
             
@@ -141,9 +147,22 @@
                                     "left": (+posX+20)+"px",
                                     "top": (+posY+20)+"px"
                                 });
-                 //TODO-8.完成的提示框：
-                 // 1.滑鼠在外圓時顯示縣市別及該縣市所有癌症累積案例數
-                 // 2.滑鼠在內圓時顯示癌症別及案例數
+
+                //TODO-8.完成的提示框：
+                // 1.滑鼠在外圓時顯示縣市別及該縣市所有癌症累積案例數
+                d3.select("#title").text(d.key);
+                if (d.depth === 1) {                    
+                    // 因為在 TODO 4的自訂值，改用癌症發生數，所以這裡可以直接取用 value
+                    d3.select("#content").html(`總案例數：<br/>${d.value}`);
+                } else if (d.depth === 3) {
+                    // 2.滑鼠在內圓時顯示癌症別及案例數
+                    
+                    d3.select("#title").text(d.city);
+                    d3.select("#content").html(`癌症別：${d.cancer_type}<br/>案例數：${d.cancer_occur_num}`);
+                } else {
+                    d3.select("#title").text("");
+                    d3.select("#content").text("");
+                }
                 
                 tooltop.classed("hidden", false);
                 
